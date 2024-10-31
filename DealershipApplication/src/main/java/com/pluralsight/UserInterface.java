@@ -53,14 +53,6 @@ public class UserInterface {
 
     }
 
-    private void processRemoveVehicleRequest() {
-        String make = Console.PromptForString("Enter make: ");
-        String model = Console.PromptForString("Enter model: ");
-        String color = Console.PromptForString("Enter color:  ");
-        Vehicle v = new Vehicle(make, model, color);
-        currentDealership.removeVehicleFromInventory(v);
-        DealershipFileManager.saveToCSV(currentDealership,filename);
-    }
 
 
     private void processAddVehicleRequest() {
@@ -80,12 +72,18 @@ public class UserInterface {
         DealershipFileManager.saveToCSV(currentDealership, filename);
 
     }
+    private void processRemoveVehicleRequest() {
+        int vin = Console.PromptForInt("Enter vin number of the vehicle you want to remove: ");
+        currentDealership.removeVehicleFromInventory(vin);
 
-    private void processGetByVehicleTypeRequest() {
-        String type = Console.PromptForString("Enter type: ");
-        for(Vehicle v : currentDealership.getVehicleByType(type));
-        displayVehicle(v);
     }
+        private void processGetByVehicleTypeRequest () {
+            String type = Console.PromptForString("Enter what type of vehicle you are looking for: ");
+            for (Vehicle v : currentDealership.getVehiclesByType(type)) {
+                displayVehicle(v);
+            }
+
+        }
     private void processGetByMileageRequest() {
         int min = Console.PromptForInt("Enter Min Miles: ");
         int max = Console.PromptForInt("Enter Max Miles: ");
