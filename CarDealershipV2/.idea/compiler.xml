@@ -9,5 +9,8 @@
         <module name="CarDealershipV2" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="contracts" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
