@@ -1,6 +1,8 @@
 package com.pluralsight;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class Dealership implements ITextEncodable {
 
@@ -17,6 +19,25 @@ public class Dealership implements ITextEncodable {
         this.address = address;
         this.phone = phone;
         this.inventory = new ArrayList<Vehicle>();
+    }
+
+    public Dealership(String encodedData){
+        this.inventory = new ArrayList<Vehicle>();
+
+        String[] lines = encodedData.split(Pattern.quote("\n"));
+        for(String line : lines){
+            String[] col = line.split(Pattern.quote("|"));
+            if(col.length == 3){ //this must be the first line...
+                this.name = col[0];
+                this.address= col[1];
+                this.phone = col[2];
+            }
+            else{ //this must be a vehicle
+                Vehicle v = new Vehicle(line);
+                this.inventory.add(v);
+            }
+        }
+
     }
 
 
@@ -71,53 +92,6 @@ public class Dealership implements ITextEncodable {
         }
         return null;
     }
-    public ArrayList<Vehicle> getVehiclesByType(String vehicleType) {
-        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
-        for (Vehicle v : this.inventory) {
-            if (v.getVehicleType().equalsIgnoreCase(vehicleType)) {
-                result.add(v);
-            }
-        }
-        return result;
-    }
-    public ArrayList<Vehicle>getVehicleByMakeModel(String make, String model){
-        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
-        for (Vehicle v : this.inventory){
-            if (v.getMake().equalsIgnoreCase(make) && v.getModel().equalsIgnoreCase(model)){
-                result.add(v);
-            }
-        }
-        return result;
-    }
-    public ArrayList<Vehicle> getVehicleByYear(double min, double max){
-        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
-        for (Vehicle v : this.inventory) {
-            if (v.getYear() >= min && v.getYear() <= max) {
-                result.add(v);
-            }
-        }
-        return result;
-    }
-    public ArrayList<Vehicle> getVehiclesByColor(String color) {
-        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
-        for (Vehicle v : this.inventory) {
-            if (v.getColor().equalsIgnoreCase(color)) {
-                result.add(v);
-            }
-        }
-        return result;
-    }
-    public ArrayList<Vehicle> getVehicleByOdometer(double min, double max) {
-        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
-        for (Vehicle v : this.inventory) {
-            if (v.getOdometer() >= min && v.getOdometer() <= max) {
-                result.add(v);
-            }
-        }
-        return result;
-    }
-
-
 
 
 
