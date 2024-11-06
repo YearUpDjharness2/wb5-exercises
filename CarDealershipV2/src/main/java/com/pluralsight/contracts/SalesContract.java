@@ -1,10 +1,9 @@
-package com.pluralsight;
+package com.pluralsight.contracts;
 
 import com.pluralsight.BankingCalculations;
-import com.pluralsight.Contracts;
 import com.pluralsight.Vehicle;
 
-public class SalesContract extends Contracts.Contract {
+public class SalesContract extends Contract{
     private double recordingFee;
     private double salesTaxAmount;
     private final double salesTaxPercentage =  0.05;
@@ -17,6 +16,14 @@ public class SalesContract extends Contracts.Contract {
         this.salesTaxAmount = vehicleSold.getPrice() * salesTaxPercentage;
         this.recordingFee = 100;
         this.processingFee = (vehicleSold.getPrice() < 10000) ? 295 : 495;
+        this.wantsToFinance = wantsToFinance;
+    }
+
+    public SalesContract(String date, String customerName, String customerEmail, Vehicle vehicleSold, double salesTaxAmount,double recordingFee, double processingFee, boolean wantsToFinance) {
+        super(date, customerName, customerEmail, vehicleSold);
+        this.recordingFee = recordingFee;
+        this.salesTaxAmount = salesTaxAmount;
+        this.processingFee = processingFee;
         this.wantsToFinance = wantsToFinance;
     }
 
@@ -74,6 +81,24 @@ public class SalesContract extends Contracts.Contract {
 
     }
 
+    @Override
+    public String toString(){
+        return "Contract for " + super.getCustomerName() + " to PURCHASE " + super.getVehicleSold();
+    }
 
+    @Override
+    public String encode() {
+        return "SALE|" +
+                this.getDate() + "|" +
+                this.getCustomerName() + "|" +
+                this.getCustomerEmail() + "|" +
+                this.getVehicleSold().encode() + "|" +
+                this.getSalesTaxAmount() + "|" +
+                this.getRecordingFee() + "|" +
+                this.getProcessingFee() + "|" +
+                this.getTotalPrice() + "|" +
+                (this.isWantsToFinance() ? "YES" : "NO") + "|" +
+                this.getMonthlyPayment();
 
+    }
 }

@@ -2,7 +2,7 @@ package com.pluralsight;
 
 import java.util.ArrayList;
 
-public class Dealership {
+public class Dealership implements ITextEncodable {
 
     private String name;
     private String address;
@@ -48,35 +48,29 @@ public class Dealership {
         return inventory;
     }
 
-    public void addVehicleToInventory(Vehicle vehicleToAdd) {
+    public void addVehicleToInventory(Vehicle vehicleToAdd){
         inventory.add(vehicleToAdd);
 
     }
 
-    public ArrayList<Vehicle> getVehiclesByPrice(double min, double max) {
+    public ArrayList<Vehicle> getVehiclesByPrice(double min, double max){
         ArrayList<Vehicle> result = new ArrayList<Vehicle>();
-        for (Vehicle v : this.inventory) {
-            if (v.getPrice() >= min && v.getPrice() <= max) {
+        for(Vehicle v : this.inventory){
+            if(v.getPrice() >= min && v.getPrice() <= max){
                 result.add(v);
             }
         }
         return result;
     }
 
-    public Vehicle getVehicleByVIN(int vin) {
-        for (Vehicle v : this.inventory) {
-            if (v.getVin() == vin) {
+    public Vehicle getVehicleByVIN(int vin){
+        for(Vehicle v : this.inventory){
+            if(v.getVin() == vin){
                 return v;
             }
         }
         return null;
     }
-
-
-    public ArrayList<Vehicle> getAllVehicles() {
-        return this.inventory;
-    }
-
     public ArrayList<Vehicle> getVehiclesByType(String vehicleType) {
         ArrayList<Vehicle> result = new ArrayList<Vehicle>();
         for (Vehicle v : this.inventory) {
@@ -86,7 +80,33 @@ public class Dealership {
         }
         return result;
     }
-
+    public ArrayList<Vehicle>getVehicleByMakeModel(String make, String model){
+        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
+        for (Vehicle v : this.inventory){
+            if (v.getMake().equalsIgnoreCase(make) && v.getModel().equalsIgnoreCase(model)){
+                result.add(v);
+            }
+        }
+        return result;
+    }
+    public ArrayList<Vehicle> getVehicleByYear(double min, double max){
+        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
+        for (Vehicle v : this.inventory) {
+            if (v.getYear() >= min && v.getYear() <= max) {
+                result.add(v);
+            }
+        }
+        return result;
+    }
+    public ArrayList<Vehicle> getVehiclesByColor(String color) {
+        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
+        for (Vehicle v : this.inventory) {
+            if (v.getColor().equalsIgnoreCase(color)) {
+                result.add(v);
+            }
+        }
+        return result;
+    }
     public ArrayList<Vehicle> getVehicleByOdometer(double min, double max) {
         ArrayList<Vehicle> result = new ArrayList<Vehicle>();
         for (Vehicle v : this.inventory) {
@@ -97,33 +117,27 @@ public class Dealership {
         return result;
     }
 
-    public ArrayList<Vehicle> getVehiclesByColor(String color) {
-        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
-        for (Vehicle v : this.inventory) {
-            if (v.getColor().equalsIgnoreCase(color)) {
-                result.add(v);
-            }
-        }
-        return result;
+
+
+
+
+    public ArrayList<Vehicle> getAllVehicles() {
+        return this.inventory;
     }
 
-    public ArrayList<Vehicle> getVehicleByYear(double min, double max) {
-        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
-        for (Vehicle v : this.inventory) {
-            if (v.getYear() >= min && v.getYear() <= max) {
-                result.add(v);
-            }
-        }
-        return result;
-    }
+    @Override
+    public String encode() {
+        StringBuilder sb = new StringBuilder();
 
-    public ArrayList<Vehicle> getVehicleByMakeModel(String make, String model) {
-        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
-        for (Vehicle v : this.inventory) {
-            if (v.getMake().equalsIgnoreCase(make) && v.getModel().equalsIgnoreCase(model)) {
-                result.add(v);
-            }
+        sb.append(this.getName()).append("|")
+                .append(this.getAddress()).append("|")
+                .append(this.getPhone()).append("\n");
+
+        for(Vehicle v : this.inventory){
+            sb.append(v.encode()).append("\n");
         }
-        return result;
+
+        return sb.toString();
+
     }
 }

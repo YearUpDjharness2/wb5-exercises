@@ -1,14 +1,20 @@
 package com.pluralsight;
 
-import com.pluralsight.Contracts.*;
+import com.pluralsight.contracts.*;
+
+import java.util.ArrayList;
 
 public class UserInterface {
 
-    public static String filename = "inventory.csv";
+    public static String filename_dealership = "inventory.csv";
+    public static String filename_contracts = "contracts.csv";
     public Dealership currentDealership;
+    public ArrayList<Contract> contracts;
 
     public UserInterface(){
-        currentDealership = DealershipFileManager.getFromCSV(filename);
+        currentDealership = DealershipFileManager.getFromCSV(filename_dealership);
+        contracts = ContractFileManager.getFromCSV(filename_contracts);
+        displayContracts(contracts);
     }
 
 
@@ -73,47 +79,23 @@ public class UserInterface {
         Vehicle v = new Vehicle(vin,year, make, model, vehicleType, color, odometer, price);
 
         currentDealership.addVehicleToInventory(v);
-        DealershipFileManager.saveToCSV(currentDealership, filename);
+        DealershipFileManager.saveToCSV(currentDealership, filename_dealership);
 
     }
 
     private void processGetByVehicleTypeRequest() {
-        String type = Console.PromptForString("Enter what type of vehicle you are looking for: ");
-        for (Vehicle v : currentDealership.getVehiclesByType(type)) {
-            displayVehicle(v);
-        }
     }
 
     private void processGetByMileageRequest() {
-        int min = Console.PromptForInt("Enter Min Miles: ");
-        int max = Console.PromptForInt("Enter Max Miles: ");
-        for(Vehicle v : currentDealership.getVehicleByOdometer(min, max)){
-            displayVehicle(v);
-        }
     }
 
     private void processGetByColorRequest() {
-        String color = Console.PromptForString("Enter Color: ");
-        for(Vehicle v : currentDealership.getVehiclesByColor(color)) {
-            displayVehicle(v);
-        }
-
     }
 
     private void processGetByYearRequest() {
-        int min = Console.PromptForInt("Enter Start Year: ");
-        int max = Console.PromptForInt("Enter End Year: ");
-        for(Vehicle v : currentDealership.getVehicleByYear(min, max)){
-            displayVehicle(v);
-        }
     }
 
     private void processGetByMakeModelRequest() {
-        String make =Console.PromptForString("Enter Make: ");
-        String model = Console.PromptForString("Enter Model: ");
-        for(Vehicle v : currentDealership.getVehicleByMakeModel(make, model)){
-            displayVehicle(v);
-        }
     }
 
     private void processGetByPriceRequest() {
@@ -244,6 +226,12 @@ public class UserInterface {
 
     public void displayVehicle(Vehicle v){
         System.out.println(v);
+    }
+
+    public void displayContracts(ArrayList<Contract> contracts){
+        for(Contract c : contracts){
+            System.out.println(c);
+        }
     }
 
 
