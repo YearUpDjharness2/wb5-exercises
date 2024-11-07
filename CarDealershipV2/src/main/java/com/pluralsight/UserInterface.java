@@ -64,6 +64,8 @@ public class UserInterface {
     }
 
     private void processRemoveVehicleRequest() {
+        int vin = Console.PromptForInt("Enter vin number of the vehicle you want to remove: ");
+        currentDealership.removeVehicleFromInventory(vin);
     }
 
     private void processAddVehicleRequest() {
@@ -85,18 +87,41 @@ public class UserInterface {
     }
 
     private void processGetByVehicleTypeRequest() {
+        String type = Console.PromptForString("Enter what type of vehicle you are looking for: ");
+        for (Vehicle v : currentDealership.getVehiclesByType(type)) {
+            displayVehicle(v);
+        }
     }
 
     private void processGetByMileageRequest() {
+        int min = Console.PromptForInt("Enter Min Miles: ");
+        int max = Console.PromptForInt("Enter Max Miles: ");
+        for(Vehicle v : currentDealership.getVehicleByOdometer(min, max)){
+            displayVehicle(v);
+        }
     }
 
     private void processGetByColorRequest() {
+        String color = Console.PromptForString("Enter Color: ");
+        for(Vehicle v : currentDealership.getVehiclesByColor(color)) {
+            displayVehicle(v);
+        }
     }
 
     private void processGetByYearRequest() {
+        int min = Console.PromptForInt("Enter Start Year: ");
+        int max = Console.PromptForInt("Enter End Year: ");
+        for(Vehicle v : currentDealership.getVehicleByYear(min, max)){
+            displayVehicle(v);
+        }
     }
 
     private void processGetByMakeModelRequest() {
+        String make =Console.PromptForString("Enter Make: ");
+        String model = Console.PromptForString("Enter Model: ");
+        for(Vehicle v : currentDealership.getVehicleByMakeModel(make, model)){
+            displayVehicle(v);
+        }
     }
 
     private void processGetByPriceRequest() {
